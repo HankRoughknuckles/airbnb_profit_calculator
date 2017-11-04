@@ -1,1 +1,40 @@
-hey there
+<div class="center">
+  <h1>Airbnb Profit Calculator</h1>
+
+  <p>Calculate how much money you could be making by putting your property on AirBnB over renting it long term!</p>
+
+  <%= form_tag do %>
+    <p>
+    <%# TODO: extract to helper %>
+      <%= label_tag(:monthly_income, 'Your typical monthly rental income:') %>
+    <br />
+    $<%= number_field(:montly_income, :rental_income, step: 1, placeholder: 200) %>
+    </p>
+
+    <p>
+      <%= label_tag(:address, 'Your address:') %>
+      <br />
+      <%= text_field_tag(:address) %>
+    </p>
+
+    <%= submit_tag('Calculate your profit!') %>
+  <% end %>
+
+  <% if params[:long_term_rent].present? %>
+    <div class="long-term-rent-display">
+      Your long term rent: $<%= params[:long_term_rent] %>
+    </div>
+  <% end %>
+
+  <% if params[:airbnb_rent].present? %>
+    <div class="airbnb-rent-display">
+      Your AirBnb rent potential: $<%= params[:airbnb_rent] %>
+    </div>
+  <% end %>
+
+  <% if params[:long_term_rent].present? && params[:airbnb_rent].present? %>
+    <div class="total">
+      <%= calculated_text(params) %>
+    </div>
+  <% end %>
+</div>
