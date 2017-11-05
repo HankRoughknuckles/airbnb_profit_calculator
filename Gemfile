@@ -10,6 +10,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   gem 'byebug'
   gem 'watir', '~> 6.8', '>= 6.8.4'
+  gem 'capybara', '~> 2.15', '>= 2.15.4'
 end
 
 group :development do
