@@ -1,8 +1,8 @@
 require 'airbnb_scraper'
 
 class CalculationController < ApplicationController
-  before_action :scrape_airbnb, only: :create
   before_action :validate_inputs, only: :create
+  before_action :scrape_airbnb, only: :create
 
   AIRBNB_ERROR = 'Error contacting AirBnB. Please try again'.freeze
   LONG_TERM_RENT_ERROR = 'Please enter a long term rent amount'.freeze
@@ -13,6 +13,7 @@ class CalculationController < ApplicationController
 
   def create
     output_params = {
+      address: params[:address],
       airbnb_rent: @airbnb_rent,
       long_term_rent: params[:long_term_rent],
     }
