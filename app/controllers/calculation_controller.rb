@@ -13,6 +13,7 @@ class CalculationController < ApplicationController
 
   def create
     output_params = {
+      address: params[:address],
       airbnb_rent: @airbnb_rent,
       long_term_rent: params[:long_term_rent],
     }

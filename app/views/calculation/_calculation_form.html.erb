@@ -1,14 +1,14 @@
 <%= form_tag calculation_path, method: :post do %>
   <p>
-    <%= label_tag(:long_term_rent, 'Your typical long term rental income:') %>
+    <%= label_tag(:long_term_rent, 'Your typical long term rental income per month:') %>
   <br />
-  <%= number_field_tag(:long_term_rent, 200, step: 1) %>
+  <%= number_field_tag(:long_term_rent, params[:long_term_rent], step: 1, placeholder: 0) %>
   </p>
 
   <p>
-    <%= label_tag(:address, 'Your address:') %>
+    <%= label_tag(:address, 'Your city:') %>
     <br />
-    <%= text_field_tag(:address) %>
+    <%= text_field_tag(:address, params[:address]) %>
   </p>
 
   <%= submit_tag('Calculate your profit!') %>

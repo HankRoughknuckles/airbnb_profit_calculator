@@ -84,15 +84,17 @@ class CalculationNewPage
   end
 
   def has_long_term_rent_display_of?(rent)
-    has_css?(LONG_TERM_RENT_DISPLAY, text: "Your long term rent: $#{rent}")
+    has_css?(LONG_TERM_RENT_DISPLAY, text: "Your long term rent: #{rent}")
   end
 
   def has_airbnb_rent_display_of?(rent)
-    has_css?(AIRBNB_RENT_DISPLAY, text: "Your AirBnb rent potential: $#{rent}")
+    has_css?(AIRBNB_RENT_DISPLAY, text: "Your AirBnb rent potential: #{rent}")
   end
 
   def has_calculated_total_of?(total)
-    has_css?(CALCULATED_DISPLAY,
-             text: "You could make #{total} profit by using AirBnb!")
+    has_css?(
+      CALCULATED_DISPLAY,
+      text: "You could make a monthly profit of #{total} by using AirBnb!"
+    )
   end
 end
