@@ -21,7 +21,11 @@ class AirbnbScraper
     set_airbnb_location
     get_rental_income_from_airbnb_page!
 
+  rescue
     @browser.close
+    @rental_income = nil
+
+  ensure
     return @rental_income
   end
 
@@ -48,7 +52,8 @@ class AirbnbScraper
   end
 
   def get_rental_income_from_airbnb_page!
-    @rental_income = fetch_rental_income.gsub(/\D/, '').to_i
+    @rental_income = fetch_rental_income.gsub(/\D/, '')
+    @rental_income = @rental_income.to_i / 12 # convert to monthly potential
   end
 
   def fetch_rental_income
