@@ -9,6 +9,9 @@ class CalculationNewPage
   LONG_TERM_RENT_DISPLAY = '.long-term-rent-display'.freeze
   AIRBNB_RENT_DISPLAY = '.airbnb-rent-display'.freeze
   CALCULATED_DISPLAY = '.total'.freeze
+  RENTAL_INCOME_INPUT = '#long_term_rent'.freeze
+  ADDRESS_INPUT = '#address'.freeze
+  SUBMIT_BUTTON = 'input[type=submit]'.freeze
 
   def initialize
   end
@@ -27,15 +30,41 @@ class CalculationNewPage
     has_title? TITLE
   end
 
+  def airbnb_rent_param
+    CGI::parse(
+      URI.parse(current_url).query
+    )['airbnb_rent'][0]
+  end
+
+
+  #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  #%% errors
+  ##%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  def has_airbnb_flash_error?
+    has_css?('.alert', text: CalculationController::AIRBNB_ERROR)
+  end
+
+  def has_long_term_rent_flash_error?
+    has_css?('.alert', text: CalculationController::LONG_TERM_RENT_ERROR)
+  end
+
+  def has_address_flash_error?
+    has_css?('.alert', text: CalculationController::ADDRESS_ERROR)
+  end
+
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   #%% form inputs
   ##%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  def has_edit_user_link?
-    has_css? @edit_user_link
+  def set_long_term_rent_to(amount)
+    find(RENTAL_INCOME_INPUT).set(amount)
   end
 
-  def click_edit_user_link
-    find(@edit_user_link).click
+  def set_address_to(address)
+    find(ADDRESS_INPUT).set(address)
+  end
+
+  def click_submit
+    find(SUBMIT_BUTTON).click
   end
 
 
