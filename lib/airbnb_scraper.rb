@@ -10,7 +10,6 @@ class AirbnbScraper
   def initialize(address)
     @rental_income = nil
     @address = address
-    city
   end
 
   def rental_income!
@@ -19,19 +18,15 @@ class AirbnbScraper
 
     set_airbnb_capacity_to(2)
     set_airbnb_location
-    get_rental_income_from_airbnb_page!
+    airbnb_rent_potential!
+    airbnb_rent_period_in_months!
+    @rental_income = @rental_income / @rent_period_in_months
 
   rescue
-    @browser.close
     @rental_income = nil
-
   ensure
+    @browser.close
     return @rental_income
-  end
-
-  def city
-    # TODO: after finishing google autocomplete, parse it properly here
-    @city ||= @address
   end
 
   def set_airbnb_capacity_to(capacity)
@@ -51,9 +46,21 @@ class AirbnbScraper
     location_input.send_keys(:enter)
   end
 
-  def get_rental_income_from_airbnb_page!
-    @rental_income = fetch_rental_income.gsub(/\D/, '')
-    @rental_income = @rental_income.to_i / 12 # convert to monthly potential
+  def airbnb_rent_potential!
+    @rental_income = fetch_rental_income.gsub(/\D/, '').to_f # remove non-digits
+  end
+
+  def airbnb_rent_period_in_months!
+    from_airbnb = @browser.span(text: /(weekly|monthly|yearly)/).text
+    period_string = from_airbnb.match(/(weekly|monthly|yearly)/)[0]
+    case period_string
+    when 'weekly'
+      @rent_period_in_months = 0.25
+    when 'monthly'
+      @rent_period_in_months = 1.00
+    when 'yearly'
+      @rent_period_in_months = 12.00
+    end
   end
 
   def fetch_rental_income
